@@ -1,0 +1,12 @@
+/Users/tomkatsaros/Documents/MIS221/Code/PA5/obj/Debug/netcoreapp3.1/PA5.csprojAssemblyReference.cache
+/Users/tomkatsaros/Documents/MIS221/Code/PA5/obj/Debug/netcoreapp3.1/PA5.AssemblyInfoInputs.cache
+/Users/tomkatsaros/Documents/MIS221/Code/PA5/obj/Debug/netcoreapp3.1/PA5.AssemblyInfo.cs
+/Users/tomkatsaros/Documents/MIS221/Code/PA5/obj/Debug/netcoreapp3.1/PA5.csproj.CoreCompileInputs.cache
+/Users/tomkatsaros/Documents/MIS221/Code/PA5/bin/Debug/netcoreapp3.1/PA5.deps.json
+/Users/tomkatsaros/Documents/MIS221/Code/PA5/bin/Debug/netcoreapp3.1/PA5.runtimeconfig.json
+/Users/tomkatsaros/Documents/MIS221/Code/PA5/bin/Debug/netcoreapp3.1/PA5.runtimeconfig.dev.json
+/Users/tomkatsaros/Documents/MIS221/Code/PA5/bin/Debug/netcoreapp3.1/PA5.dll
+/Users/tomkatsaros/Documents/MIS221/Code/PA5/bin/Debug/netcoreapp3.1/PA5.pdb
+/Users/tomkatsaros/Documents/MIS221/Code/PA5/obj/Debug/netcoreapp3.1/PA5.dll
+/Users/tomkatsaros/Documents/MIS221/Code/PA5/obj/Debug/netcoreapp3.1/PA5.pdb
+/Users/tomkatsaros/Documents/MIS221/Code/PA5/obj/Debug/netcoreapp3.1/PA5.genruntimeconfig.cache

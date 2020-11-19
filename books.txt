@@ -1,0 +1,7 @@
+3#The Hobbit#JRR Tolkien#Fiction#485#Rented#0
+19#MIS 221#Jeff#Mystery#8730#Available#1
+29#The Art of War#Sun Tzu#History#90#Available#0
+33#Harry Potter#JK Rowling#Fantasy#90#Available#0
+68#Nineteen Eighty Four#George Orwell#Fiction#59#Rented#0
+77#John Doe#Theo Brown#Fiction#2#Available#0
+104#World War Two#Adam Wells#history#803#Rented#0
