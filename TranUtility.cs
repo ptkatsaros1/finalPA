@@ -36,10 +36,37 @@ namespace PA5
             myTransactions[y] = temp;
         }
 
-        public int BinarySearch(Transactions[] myTransactions, int searchVal)
+        public static void SelectionSortHist(Transactions[] myTransactions)
+        {
+            for (int i = 0; i < Transactions.GetTranCount() - 1; i++)
+            {
+                int min = i;
+
+                for (int j = i + 1; j < Transactions.GetTranCount(); j++)
+                { 
+                    if(myTransactions[min].CompareToHist(myTransactions[j]) > 0)
+                    {
+                        min = j;
+                    }
+                }
+                if(min != i)
+                {
+                    SwapHist(myTransactions, min, i);
+                }
+            }
+        }
+
+        public static void SwapHist(Transactions[] myTransactions, int x, int y )
+        {
+            Transactions temp = myTransactions[x];
+            myTransactions[x] = myTransactions[y];
+            myTransactions[y] = temp;
+        }
+
+        public static int BinarySearch(Transactions[] myTransactions, int searchVal)
         {
             bool notFound = true;
-            int foundIndex2 = -1;
+            int foundIndex = -1;
 
             int first = 0;
             int last = Transactions.GetTranCount() - 1;
@@ -51,7 +78,7 @@ namespace PA5
                 if(searchVal == myTransactions[middle].GetTranISBN())
                 {
                     notFound = false;
-                    foundIndex2 = middle;
+                    foundIndex = middle;
                 }
                 else if(searchVal > myTransactions[middle].GetTranISBN())
                 {
@@ -62,7 +89,7 @@ namespace PA5
                     last = middle -1;
                 }
             }
-            return foundIndex2;
+            return foundIndex;
         }
     }
 }

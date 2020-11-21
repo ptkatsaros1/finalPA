@@ -126,13 +126,6 @@ namespace PA5
 
         public static Book[] GetBookData()
         {
-
-            StreamReader sR = new StreamReader("books.txt");
-
-            // string test = sR.ReadLine();
-            // string[] array = test.Split('#');
-            // Book[] myBooks = new Book[array.Length];
-
             BookFile data = new BookFile("books.txt");
             Book[] myBooks = data.ReadBookData();
             
@@ -145,7 +138,7 @@ namespace PA5
                 Console.WriteLine(indexFound);
                 if(indexFound == -1)
                 {
-                    int bookCount = 0;
+                    int bookCount = 1;
 
                     Console.Write("Enter the title: \n");
                     string title = Console.ReadLine();
@@ -181,6 +174,76 @@ namespace PA5
             return myBooks;
         }
 
+        public static void Edit(Book[] myBooks)
+        {
+            // edit function
+            Console.WriteLine("Enter the ISBN of the book you would like to edit: ");
+            int tempISBN = int.Parse(Console.ReadLine());
+            //searching ISBN 
+            int indexFound = BookUtility.BinarySearch(myBooks, tempISBN);
+            Console.WriteLine("Please enter:\n'Title' to edit the title\n'Author' to edit the author\n'Genre' to edit the genre\n'Listening Time' to edit the listening time\n'Copy Count' to chnage the number of available copies");
+            string answer = Console.ReadLine().ToLower();
+            if(answer == "title")
+            {
+                Console.WriteLine("\nEnter a new title:");
+                string newTitle = Console.ReadLine();
+                myBooks[indexFound].SetTitle(newTitle);
+            }
+            else if(answer == "author")
+            {
+                Console.WriteLine("\nEnter a new author:");
+                string newAuthor = Console.ReadLine();
+                myBooks[indexFound].SetAuthor(newAuthor);
+            }
+            else if(answer == "genre")
+            {
+                Console.WriteLine("\nEnter a new genre:");
+                string newGenre = Console.ReadLine();
+                myBooks[indexFound].SetGenre(newGenre);
+            }
+            else if(answer == "listening time")
+            {
+                Console.WriteLine("\nEnter a new listening time:");
+                double newLT = double.Parse(Console.ReadLine());
+                myBooks[indexFound].SetListeningTime(newLT);
+            }
+            else if(answer == "copy count")
+            {
+                Console.WriteLine("Enter 'add' to add a copy of the book or 'subtract' to subtract a copy");
+                string copy = Console.ReadLine().ToLower();
+                if(copy == "add")
+                {
+                    int copiesAdd = myBooks[indexFound].GetBookCount() + 1;
+                    myBooks[indexFound].SetBookCount(copiesAdd);
+                    Console.WriteLine("\nBook count is currently: " + myBooks[indexFound].GetBookCount());
+                }
+                else if(copy == "subtract")
+                {
+                    int copies = myBooks[indexFound].GetBookCount() - 1;
+                    myBooks[indexFound].SetBookCount(copies);
+                    Console.WriteLine("\nBook count is currently: " + myBooks[indexFound].GetBookCount());
+                }
+            }
+
+            // clear and re-send sorted and edited array (update the text file)
+                string path2 = "books.txt";
+                File.WriteAllText(path2, String.Empty);
+                TextWriter tW2 = new StreamWriter(path2, true);
+                tW2.Close();
+                ToFile(myBooks);
+        }
+
+        public static void SortAndSend(Book[] myBooks)
+        {
+            BookUtility.SelectionSort(myBooks);
+            PrintBooks(myBooks);
+            // clear and re-send sorted and edited array (update the text file)
+            string path = "books.txt";
+            File.WriteAllText(path, String.Empty);
+            TextWriter tW = new StreamWriter(path, true);
+            tW.Close();
+            ToFile(myBooks);
+        }
         public static void ToFile(Book[] myBooks)
         {
             myBooks.ToString();

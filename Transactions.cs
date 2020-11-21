@@ -148,13 +148,45 @@ namespace PA5
                 }
                 else
                 {
-                    Console.WriteLine("ERROR");
+                    Console.WriteLine("\nERROR... There are no available copies of this book\n");
                     GetTransactionData(myBooks);
                 }
 
             }
             return myTransactions;
 
+         }
+
+         public static void BookReturn(Transactions[] myTransactions)
+         {
+             //return book
+            Console.WriteLine("\nEnter the ISBN of the book to be returned: ");
+            //search user return ISBN in transaction file
+            int tempTranISBN = int.Parse(Console.ReadLine());
+            Console.WriteLine("\nEnter the customer's email: ");
+            string tempEmail = Console.ReadLine();
+
+            for(int i = 1; i < Transactions.GetTranCount(); i++)
+            {
+                int tempFound = TranUtility.BinarySearch(myTransactions, tempTranISBN);
+                if(tempEmail == myTransactions[i].GetCustomerEmail())
+                {
+                    if(i == tempFound)
+                    {
+                        //find the isbn instance in the transaction file and replace the N/A with the current date (date of return)
+                        string newReturnDate = DateTime.Now.ToString("M/d/yyyy");
+                        myTransactions[tempFound].SetReturnDate(newReturnDate);
+                    }
+                }
+            }
+            //clear and resend
+            string path5 = "transactions.txt";
+            File.WriteAllText(path5, String.Empty);
+            TextWriter tW5 = new StreamWriter(path5, true);
+            tW5.Close();
+            ToFile(myTransactions);
+
+          
          }
 
          public static void ToFile(Transactions[] myTransactions)
@@ -170,6 +202,11 @@ namespace PA5
          public int CompareTo(Transactions count)
         {
             return this.tranISBN.CompareTo(count.GetTranISBN());
+        }
+
+        public int CompareToHist(Transactions count)
+        {
+            return this.customerName.CompareTo(count.GetCustomerName());
         }
 
           public static void PrintRent(Transactions[] myTransactions)

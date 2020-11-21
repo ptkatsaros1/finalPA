@@ -1,4 +1,6 @@
 using System;
+using System.IO;
+using System.Linq;
 namespace PA5
 {
     public class BookReport
@@ -34,13 +36,46 @@ namespace PA5
             }
         }
 
-       public static void Swap(Transactions[] myTransactions, int x, int y )
+        public static void Swap(Transactions[] myTransactions, int x, int y )
         {
             Transactions temp = myTransactions[x];
             myTransactions[x] = myTransactions[y];
             myTransactions[y] = temp;
         }
-    }
 
-    
+
+        public static void CustDateSort(Transactions[] myTransactions)
+        {   
+            TranUtility.SelectionSortHist(myTransactions);
+
+            string tempName = myTransactions[0].GetCustomerName();
+            // string tempDate = myTransactions[0].GetRentDate();
+            int count = 1;
+
+            for (int i = 0; i < Transactions.GetTranCount(); i++)
+            {
+                if(tempName == myTransactions[i].GetCustomerName())
+                {
+                    Console.WriteLine(myTransactions[i]);
+                }
+                else
+                {
+                    ProcessBreak(myTransactions, ref tempName, ref count, i);
+                }
+
+             }
+             ProcessBreak(myTransactions, ref tempName, ref count, 0);
+        }
+
+        public static void ProcessBreak(Transactions[] myTransactions, ref string tempName, ref int count, int i)
+        {
+            SortDate(myTransactions);
+            Transactions.PrintRent(myTransactions);
+            Console.ReadLine();
+
+            tempName = myTransactions[i].GetCustomerName();
+            count = 1;
+        }
+
+    } 
 }

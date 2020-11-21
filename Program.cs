@@ -3,218 +3,229 @@ using System.IO;
 
 namespace PA5
 {
-    class Program
+    internal class NewBaseType
     {
         static void Main(string[] args)
         {
 
-            Book[] myBooks = Book.GetBookData();
-            BookUtility bookUtility = new BookUtility(myBooks);
-            BookFile bookFile = new BookFile("books.txt");
-            TranFile tranFile = new TranFile("transactions.txt");
-            Transactions[] myTransactions = new Transactions[200];
-            TranUtility tranUtility = new TranUtility(myTransactions);
-            BookReport bookReport = new BookReport(myTransactions);
-    
-            
-            // sort the array
-            bookUtility.SelectionSort(myBooks);
-            Book.PrintBooks(myBooks);
-            // clear and re-send sorted and edited array (update the text file)
-            string path = "books.txt";
-            File.WriteAllText(path, String.Empty);
-            TextWriter tW = new StreamWriter(path, true);
-            tW.Close();
-            Book.ToFile(myBooks);
+            string selection = "";
 
-            // // edit function
-            // Console.WriteLine("Enter the ISBN of the book you would like to edit: ");
-            // int tempISBN = int.Parse(Console.ReadLine());
-            // //searching ISBN 
-            // int indexFound = BookUtility.BinarySearch(myBooks, tempISBN);
-            // Console.WriteLine("Please enter:\n'Title' to edit the title\n'Author' to edit the author\n'Genre' to edit the genre\n'Listening Time' to edit the listening time\n'Copy Count' to chnage the number of available copies");
-            // string answer = Console.ReadLine().ToLower();
-            // if(answer == "title")
-            // {
-            //     Console.WriteLine("\nEnter a new title:");
-            //     string newTitle = Console.ReadLine();
-            //     myBooks[indexFound].SetTitle(newTitle);
-            // }
-            // else if(answer == "author")
-            // {
-            //     Console.WriteLine("\nEnter a new author:");
-            //     string newAuthor = Console.ReadLine();
-            //     myBooks[indexFound].SetAuthor(newAuthor);
-            // }
-            // else if(answer == "genre")
-            // {
-            //     Console.WriteLine("\nEnter a new genre:");
-            //     string newGenre = Console.ReadLine();
-            //     myBooks[indexFound].SetGenre(newGenre);
-            // }
-            // else if(answer == "listening time")
-            // {
-            //     Console.WriteLine("\nEnter a new listening time:");
-            //     double newLT = double.Parse(Console.ReadLine());
-            //     myBooks[indexFound].SetListeningTime(newLT);
-            // }
-            // else if(answer == "copy count")
-            // {
-            //     Console.WriteLine("Enter 'add' to add a copy of the book or 'subtract' to subtract a copy");
-            //     string copy = Console.ReadLine().ToLower();
-            //     if(copy == "add")
-            //     {
-            //         int copiesAdd = myBooks[indexFound].GetBookCount() + 1;
-            //         myBooks[indexFound].SetBookCount(copiesAdd);
-            //         Console.WriteLine("\nBook count is currently: " + myBooks[indexFound].GetBookCount());
-            //     }
-            //     else if(copy == "subtract")
-            //     {
-            //         int copies = myBooks[indexFound].GetBookCount() - 1;
-            //         myBooks[indexFound].SetBookCount(copies);
-            //         Console.WriteLine("\nBook count is currently: " + myBooks[indexFound].GetBookCount());
-            //     }
-            // }
-
-        
-            // // clear and re-send sorted and edited array (update the text file)
-            // string path2 = "books.txt";
-            // File.WriteAllText(path, String.Empty);
-            // TextWriter tW2 = new StreamWriter(path2, true);
-            // tW2.Close();
-            // Book.ToFile(myBooks);
-
-
-            //Lets the user input which book ISBN is to be rented
-            myTransactions = Transactions.GetTransactionData(myBooks);
-            Transactions.PrintRent(myTransactions);
-            //Marks the book as rented in the book text file
-            string rentPath = "books.txt";
-            File.WriteAllText(rentPath, String.Empty);
-            TextWriter twP = new StreamWriter(rentPath, true);
-            twP.Close();
-            Book.ToFile(myBooks);
-
-            //write what is in the transactions array to the text file, read the text file and send back to array, sort the array
-            Transactions.ToFile(myTransactions);
-            myTransactions = tranFile.ReadTranData();
-            tranUtility.SelectionSort(myTransactions);
-            Transactions.PrintRent(myTransactions);
-            //clear and re-send sorted and edited array (update the text file)
-            string tranPath = "transactions.txt";
-            File.WriteAllText(tranPath, String.Empty);
-            TextWriter tWTran = new StreamWriter(tranPath, true);
-            tWTran.Close();
-            Transactions.ToFile(myTransactions);
-
-            //Display books available for rent
-            // Console.Clear();
-            Console.WriteLine("\nBooks available for rent:\n\n");
-            for(int i = 0; i < Book.GetCount(); i++)
+            while (selection != "exit")
             {
-                if(myBooks[i].GetStatus() == "Available")
+                selection = GetSelection();
+                // Book[] myBooks = Book.GetBookData();
+                // Book.SortAndSend(myBooks);
+                BookFile data = new BookFile("books.txt");
+                Book[] myBooks = data.ReadBookData();
+                BookUtility bookUtility = new BookUtility(myBooks);
+                BookFile bookFile = new BookFile("books.txt");
+                TranFile tranFile = new TranFile("transactions.txt");
+                Transactions[] myTransactions = new Transactions[200];
+                TranUtility tranUtility = new TranUtility(myTransactions);
+                BookReport bookReport = new BookReport(myTransactions);
+
+                if(selection == "add")
                 {
-                    Console.WriteLine(myBooks[i].GetTitle());
+                    myBooks = Book.GetBookData();
+                    Book.SortAndSend(myBooks);
+                }
+                if(selection == "edit")
+                {
+                    Book.Edit(myBooks);
+                }
+                if(selection == "view")
+                {
+                    Console.WriteLine("\nBooks available for rent:\n\n");
+                    for(int i = 0; i < Book.GetCount(); i++)
+                    {
+                        if(myBooks[i].GetStatus() == "Available")
+                        {
+                            Console.WriteLine(myBooks[i].GetTitle());
+                        }
+                    }
+                    Console.WriteLine("\nPress enter to continue: ");
+                    Console.ReadLine();
+                }
+                if(selection == "rent")
+                {
+                    //Lets the user input which book ISBN is to be rented
+                    myTransactions = Transactions.GetTransactionData(myBooks);
+                    Transactions.PrintRent(myTransactions);
+                    //Marks the book as rented in the book text file
+                    string rentPath = "books.txt";
+                    File.WriteAllText(rentPath, String.Empty);
+                    TextWriter twP = new StreamWriter(rentPath, true);
+                    twP.Close();
+                    Book.ToFile(myBooks);
+
+                    //write what is in the transactions array to the text file, read the text file and send back to array, sort the array
+                    Transactions.ToFile(myTransactions);
+                    myTransactions = tranFile.ReadTranData();
+                    tranUtility.SelectionSort(myTransactions);
+                    Transactions.PrintRent(myTransactions);
+                    //clear and re-send sorted and edited array (update the text file)
+                    string tranPath = "transactions.txt";
+                    File.WriteAllText(tranPath, String.Empty);
+                    TextWriter tWTran = new StreamWriter(tranPath, true);
+                    tWTran.Close();
+                    Transactions.ToFile(myTransactions);
+                }
+                if(selection == "return")
+                {
+                    Console.Clear();
+                    myTransactions = tranFile.ReadTranData();
+                    Transactions.PrintRent(myTransactions);
+                    //return book
+                    Console.WriteLine("\nEnter the ISBN of the book to be returned: ");
+                    //search user return ISBN in transaction file
+                    int tempTranISBN = int.Parse(Console.ReadLine());
+                    Console.WriteLine("\nEnter the customer's email: ");
+                    string tempEmail = Console.ReadLine();
+
+                    for(int i = 1; i < Transactions.GetTranCount(); i++)
+                    {
+                        int tempFound = TranUtility.BinarySearch(myTransactions, tempTranISBN);
+                        if(tempEmail == myTransactions[i].GetCustomerEmail())
+                        {
+                            if(i == tempFound)
+                            {
+                                //find the isbn instance in the transaction file and replace the N/A with the current date (date of return)
+                                string newReturnDate = DateTime.Now.ToString("M/d/yyyy");
+                                myTransactions[tempFound].SetReturnDate(newReturnDate);
+                            }
+                        }
+             
+                    }
+                    string tranPath = "transactions.txt";
+                    File.WriteAllText(tranPath, String.Empty);
+                    TextWriter tWTran = new StreamWriter(tranPath, true);
+                    tWTran.Close();
+                    Transactions.ToFile(myTransactions);
+
+                    Console.WriteLine("\nBook returned.");
+                    Console.WriteLine("\nPress enter to continue: ");
+                    Console.ReadLine();
+                }
+                if(selection == "total")
+                {
+                    myTransactions = tranFile.ReadTranData();
+                    tranUtility.SelectionSort(myTransactions);
+                    //clear and re-send sorted and edited array (update the text file)
+                    string returnPath = "transactions.txt";
+                    File.WriteAllText(returnPath, String.Empty);
+                    TextWriter tWReturn = new StreamWriter(returnPath, true);
+                    tWReturn.Close();
+                    Transactions.ToFile(myTransactions);
+
+                    BookReport.SortDate(myTransactions);
+                    Console.WriteLine("\nTotal rentals by month and year: \n");
+                    Transactions.PrintRent(myTransactions);
+                    Console.ReadLine();
+                    Console.WriteLine("Would you like to save these to a text file? (yes or no) ");
+                    string answer = Console.ReadLine();
+
+                    if(answer.ToLower() == "yes")
+                    {
+                        Console.WriteLine("\nEnter the name of the text file: ");
+                        string tempTxt = Console.ReadLine();
+                        StreamWriter outFile = new StreamWriter(tempTxt);
+
+                        for(int i = 0; i < Transactions.GetTranCount(); i++)
+                        {
+                            outFile.WriteLine(myTransactions[i].GetRentID() + "#" + myTransactions[i].GetTranISBN() + "#" + myTransactions[i].GetCustomerName() + "#" + myTransactions[i].GetCustomerEmail() + "#" + myTransactions[i].GetRentDate() + "#" + myTransactions[i].GetReturnDate());
+                        }
+
+                        outFile.Close();
+                    }
+                }
+                if(selection == "individual")
+                {
+                    myTransactions = tranFile.ReadTranData();
+                    tranUtility.SelectionSort(myTransactions);
+                    //clear and re-send sorted and edited array (update the text file)
+                    string returnPath = "transactions.txt";
+                    File.WriteAllText(returnPath, String.Empty);
+                    TextWriter tWReturn = new StreamWriter(returnPath, true);
+                    tWReturn.Close();
+                    Transactions.ToFile(myTransactions);
+                
+                    Console.WriteLine("\nEnter the customer's email: ");
+                    string tempIndvEmail = Console.ReadLine();
+                    Console.WriteLine("\nCustomer rental history: \n");
+
+                    for(int i = 1; i < Transactions.GetTranCount(); i++)
+                    {
+                        if(tempIndvEmail == myTransactions[i].GetCustomerEmail())
+                        {
+                            Console.WriteLine(myTransactions[i]);
+                        }
+                    }
+
+                    Console.WriteLine("\nWould you like to enter this into a text file? (yes or no)");
+                    string choice = Console.ReadLine();
+                    if(choice.ToLower() == "yes")
+                    {
+                        Console.WriteLine("\nEnter the name of the text file: ");
+                        string tempTxt = Console.ReadLine();
+                        StreamWriter outFile = new StreamWriter(tempTxt);
+                        for(int i = 1; i < Transactions.GetTranCount(); i++)
+                        {
+
+                            if(tempIndvEmail == myTransactions[i].GetCustomerEmail())
+                            {
+                                outFile.WriteLine(myTransactions[i].GetRentID() + "#" + myTransactions[i].GetTranISBN() + "#" + myTransactions[i].GetCustomerName() + "#" + myTransactions[i].GetCustomerEmail() + "#" + myTransactions[i].GetRentDate() + "#" + myTransactions[i].GetReturnDate());
+                            }
+                        }
+                        outFile.Close();
+                    }
+
+                    Console.WriteLine("\nPress enter to continue: ");
+                    Console.ReadLine();
+                }
+                if(selection == "historical")
+                {
+                    myTransactions = tranFile.ReadTranData();
+                    BookReport.CustDateSort(myTransactions);
                 }
             }
-
-
-            // //return book
-            // Console.WriteLine("\nEnter the ISBN of the book to be returned: ");
-            // //search user return ISBN in transaction file
-            // int tempTranISBN = int.Parse(Console.ReadLine());
-            // Console.WriteLine("\nEnter the customer's email: ");
-            // string tempEmail = Console.ReadLine();
-
-            // for(int i = 1; i < Transactions.GetTranCount(); i++)
-            // {
-            //     int tempFound = tranUtility.BinarySearch(myTransactions, tempTranISBN);
-            //     if(tempEmail == myTransactions[i].GetCustomerEmail())
-            //     {
-            //         if(i == tempFound)
-            //         {
-            //             //find the isbn instance in the transaction file and replace the N/A with the current date (date of return)
-            //             string newReturnDate = DateTime.Now.ToString("M/d/yyyy");
-            //             myTransactions[tempFound].SetReturnDate(newReturnDate);
-            //         }
-            //     }
-            // }
-
-            //clear and re-send sorted and edited array (update the text file)
-            string returnPath = "transactions.txt";
-            File.WriteAllText(returnPath, String.Empty);
-            TextWriter tWReturn = new StreamWriter(returnPath, true);
-            tWReturn.Close();
-            Transactions.ToFile(myTransactions);
-
-            //sort by date
-            BookReport.SortDate(myTransactions);
-            Console.WriteLine("\nTotal rentals by month and year: \n");
-            Transactions.PrintRent(myTransactions);
-            Console.WriteLine("Would you like to save these to a text file? (yes or no) ");
-            string answer = Console.ReadLine();
-            if(answer.ToLower() == "yes")
-            {
-                Console.WriteLine("\nEnter the name of the text file: ");
-                string tempTxt = Console.ReadLine();
-                StreamWriter outFile = new StreamWriter(tempTxt);
-
-                for(int i = 0; i < Transactions.GetTranCount(); i++)
-                {
-                    outFile.WriteLine(myTransactions[i].GetRentID() + "#" + myTransactions[i].GetTranISBN() + "#" + myTransactions[i].GetCustomerName() + "#" + myTransactions[i].GetCustomerEmail() + "#" + myTransactions[i].GetRentDate() + "#" + myTransactions[i].GetReturnDate());
-                }
-
-                outFile.Close();
-            }
-
-            //Individual customer rentals
-            Console.WriteLine("\nEnter the customer's email: ");
-            string tempIndvEmail = Console.ReadLine();
-            Console.WriteLine("\nCustomer rental history: \n");
-
-            for(int i = 1; i < Transactions.GetTranCount(); i++)
-            {
-                if(tempIndvEmail == myTransactions[i].GetCustomerEmail())
-                {
-                    Console.WriteLine(myTransactions[i]);
-                }
-    
-            }
-
-            for (int i = 0; i < Transactions.GetTranCount(); i++)
-            {
-                string[] names = myTransactions[i].GetCustomerEmail();
-            }
-           
-            var sortedNames = names.OrderBy(n => n);
-            foreach (var item in sortedNames)
-            {
-            Console.WriteLine(item);
-            }
-            
-
-            //Historical customer rentals
-            // string cust = myTransactions[0].GetCustomerEmail();
-
-            // for(int i = 1; i < Transactions.GetTranCount(); i++)
-            // {
-            //     if(cust == myTransactions[i].GetCustomerEmail())
-            //     {
-            //         Console.WriteLine
-            //     }
-            //     else
-            //     {
-            //         averageT = sum / count;
-            //         Console.WriteLine(team + "\t\t" + averageT);
-
-            //         team = players[i].GetTeam();
-            //         count = 1;
-            //         sum = players[i].GetAverage();
-            //     }
-            // }
-            // Console.WriteLine(team + "\t\t" + averageT);
 
         }
 
+            static void DisplayMenu()
+            {
+                Console.WriteLine("\n\nPlease type:\n'Add' to add books\n'Edit' to edit a book\n'View' to view books available for rent\n'Rent' to mark a book as rented\n'Return' to mark a book as returned\n'Total' to see total rentals by month and year\n'Individual' to see individual customer rentals\n'Historical' to see all rentals to date");
+            }
+
+            static string GetSelection()
+            {
+                Console.Clear();
+                DisplayMenu();
+                string selection = Console.ReadLine().ToLower();
+
+                while (!ErrorMessage(selection))
+                {
+                    Console.Clear();
+                    Console.WriteLine("ERROR: Invalid selection. Press enter to try again. ");
+                    Console.ReadKey();
+
+                    DisplayMenu();
+                    selection = Console.ReadLine();
+                }
+                return selection;
+            }
+
+            static bool ErrorMessage(string selection)
+            {
+                bool isNotValid = false;
+                if (selection == "add" || selection == "edit" || selection == "view" || selection == "rent" || selection == "return" || selection == "total" || selection == "individual" || selection == "historical")
+                {
+                    return true;
+                }
+                else
+                {
+                    return isNotValid;
+                }
+            }
     }
+
 }

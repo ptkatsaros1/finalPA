@@ -11,7 +11,7 @@ namespace PA5
             this.myBooks = myBooks;
         }
     
-        public void SelectionSort(Book[] myBooks)
+        public static void SelectionSort(Book[] myBooks)
         {
             for (int i = 0; i < Book.GetCount() - 1; i++)
             {
@@ -31,7 +31,7 @@ namespace PA5
             }
         }
 
-        public void Swap(Book[] myBooks, int x, int y )
+        public static void Swap(Book[] myBooks, int x, int y )
         {
             Book temp = myBooks[x];
             myBooks[x] = myBooks[y];
