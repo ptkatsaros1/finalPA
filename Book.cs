@@ -18,7 +18,7 @@ namespace PA5
         {
 
         }
-
+        //Book constructor
         public Book(int ISBN, string title, string author, string genre, double listeningTime, string status, int bookCount)
         {
             this.ISBN = ISBN; 
@@ -28,9 +28,9 @@ namespace PA5
             this.listeningTime = listeningTime;
             this.status = status;
             this.bookCount = bookCount;
-            //count++;
         }
-        
+
+        //getters and setters
         public void SetStatus(string status)
         {
             this.status = status;
@@ -104,11 +104,6 @@ namespace PA5
             count++;
         }
 
-        public static void DecrCount()
-        {
-            count--;
-        }
-
         public int GetBookCount()
         {
             return bookCount;
@@ -123,9 +118,10 @@ namespace PA5
             return ISBN + " " + title + " " + author + " " + genre + " " + listeningTime; 
         }
 
-
+        //Method gets books from user to be added to book file
         public static Book[] GetBookData()
         {
+            //read existing data from book file into array
             BookFile data = new BookFile("books.txt");
             Book[] myBooks = data.ReadBookData();
             
@@ -133,9 +129,9 @@ namespace PA5
             int ISBN = int.Parse(Console.ReadLine());
             
             while(ISBN != -1)
-            {
+            {   
+                //binary search checks to see if the book already exists, if not, it continues to get user info on the book
                 int indexFound = BookUtility.BinarySearch(myBooks, ISBN);
-                Console.WriteLine(indexFound);
                 if(indexFound == -1)
                 {
                     int bookCount = 1;
@@ -161,10 +157,12 @@ namespace PA5
                     Console.Write("Enter book ISBN (- 1 to stop): \n");
                     ISBN = int.Parse(Console.ReadLine());
                 }
+                //if the book ISBN already exists, program will increase the number of copies by one
                 else
                 {
                     int copies = myBooks[indexFound].GetBookCount() + 1;
                     myBooks[indexFound].SetBookCount(copies);
+                    //exits the GetBookData method
                     ISBN = -1;
                 }
                 
@@ -179,7 +177,7 @@ namespace PA5
             // edit function
             Console.WriteLine("Enter the ISBN of the book you would like to edit: ");
             int tempISBN = int.Parse(Console.ReadLine());
-            //searching ISBN 
+            //searching ISBN to be able to edit a specific book 
             int indexFound = BookUtility.BinarySearch(myBooks, tempISBN);
             Console.WriteLine("Please enter:\n'Title' to edit the title\n'Author' to edit the author\n'Genre' to edit the genre\n'Listening Time' to edit the listening time\n'Copy Count' to chnage the number of available copies");
             string answer = Console.ReadLine().ToLower();
@@ -187,30 +185,35 @@ namespace PA5
             {
                 Console.WriteLine("\nEnter a new title:");
                 string newTitle = Console.ReadLine();
+                //finds the instance of the ISBN entered and makes an edit to title at that instance
                 myBooks[indexFound].SetTitle(newTitle);
             }
             else if(answer == "author")
             {
                 Console.WriteLine("\nEnter a new author:");
                 string newAuthor = Console.ReadLine();
+                //finds the instance of the ISBN entered and makes an edit to author at that instance
                 myBooks[indexFound].SetAuthor(newAuthor);
             }
             else if(answer == "genre")
             {
                 Console.WriteLine("\nEnter a new genre:");
                 string newGenre = Console.ReadLine();
+                //finds the instance of the ISBN entered and makes an edit to genre at that instance
                 myBooks[indexFound].SetGenre(newGenre);
             }
             else if(answer == "listening time")
             {
                 Console.WriteLine("\nEnter a new listening time:");
                 double newLT = double.Parse(Console.ReadLine());
+                //finds the instance of the ISBN entered and makes an edit to listening time at that instance
                 myBooks[indexFound].SetListeningTime(newLT);
             }
             else if(answer == "copy count")
             {
                 Console.WriteLine("Enter 'add' to add a copy of the book or 'subtract' to subtract a copy");
                 string copy = Console.ReadLine().ToLower();
+                //if the user selects add, the program increaes the copy count by one at the binary search index foud, and subracts if subtract is selected
                 if(copy == "add")
                 {
                     int copiesAdd = myBooks[indexFound].GetBookCount() + 1;
@@ -233,6 +236,7 @@ namespace PA5
                 ToFile(myBooks);
         }
 
+        //*see add section of program.cs
         public static void SortAndSend(Book[] myBooks)
         {
             BookUtility.SelectionSort(myBooks);
@@ -244,6 +248,7 @@ namespace PA5
             tW.Close();
             ToFile(myBooks);
         }
+        //tofile used to write info into text file with # delimeter
         public static void ToFile(Book[] myBooks)
         {
             myBooks.ToString();

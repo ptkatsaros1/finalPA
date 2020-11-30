@@ -19,6 +19,7 @@ namespace PA5
         {
             return fileName;
         }
+        //used in program.cs to read info from text file into array
         public Book[] ReadBookData()
         {
 

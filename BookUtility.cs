@@ -10,7 +10,8 @@ namespace PA5
         {
             this.myBooks = myBooks;
         }
-    
+
+        //sorts book array to prepare for binary search
         public static void SelectionSort(Book[] myBooks)
         {
             for (int i = 0; i < Book.GetCount() - 1; i++)
@@ -38,6 +39,8 @@ namespace PA5
             myBooks[y] = temp;
         }
 
+
+        //binary search used for finding ISBN within book array, returns index of ISBN found
         public static int BinarySearch(Book[] myBooks, int searchVal)
         {
             bool notFound = true;

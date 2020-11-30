@@ -8,7 +8,7 @@ namespace PA5
         {
             this.myTransactions = myTransactions;
         }
-    
+        //selection sort used to sort array by ISBN
         public void SelectionSort(Transactions[] myTransactions)
         {
             for (int i = 0; i < Transactions.GetTranCount() - 1; i++)
@@ -36,6 +36,7 @@ namespace PA5
             myTransactions[y] = temp;
         }
 
+        //used to sort transaction array by name
         public static void SelectionSortHist(Transactions[] myTransactions)
         {
             for (int i = 0; i < Transactions.GetTranCount() - 1; i++)
@@ -63,33 +64,33 @@ namespace PA5
             myTransactions[y] = temp;
         }
 
-        public static int BinarySearch(Transactions[] myTransactions, int searchVal)
-        {
-            bool notFound = true;
-            int foundIndex = -1;
+        // public static int BinarySearch(Transactions[] myTransactions, int searchVal)
+        // {
+        //     bool notFound = true;
+        //     int foundIndex = -1;
 
-            int first = 0;
-            int last = Transactions.GetTranCount() - 1;
+        //     int first = 0;
+        //     int last = Transactions.GetTranCount() - 1;
 
-            while(notFound && first <= last)
-            {
-                int middle = (first + last) / 2;
+        //     while(notFound && first <= last)
+        //     {
+        //         int middle = (first + last) / 2;
                 
-                if(searchVal == myTransactions[middle].GetTranISBN())
-                {
-                    notFound = false;
-                    foundIndex = middle;
-                }
-                else if(searchVal > myTransactions[middle].GetTranISBN())
-                {
-                    first = middle + 1;
-                }
-                else 
-                {
-                    last = middle -1;
-                }
-            }
-            return foundIndex;
-        }
+        //         if(searchVal == myTransactions[middle].GetTranISBN())
+        //         {
+        //             notFound = false;
+        //             foundIndex = middle;
+        //         }
+        //         else if(searchVal > myTransactions[middle].GetTranISBN())
+        //         {
+        //             first = middle + 1;
+        //         }
+        //         else 
+        //         {
+        //             last = middle -1;
+        //         }
+        //     }
+        //     return foundIndex;
+        // }
     }
 }
