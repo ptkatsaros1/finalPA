@@ -108,8 +108,6 @@ namespace PA5
 
         public void YearBreak(Transactions[] myTransactions, ref string yearStr, ref string monthStr, ref int monthCount, ref int yearCount, int y)
         {
-            Console.WriteLine("HELLO????");
-            Console.ReadKey();
             yearCount = 0;
             yearStr = myTransactions[y].GetRentDate().Substring(6,4);
             monthCount = 1;
