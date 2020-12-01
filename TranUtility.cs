@@ -64,33 +64,60 @@ namespace PA5
             myTransactions[y] = temp;
         }
 
-        // public static int BinarySearch(Transactions[] myTransactions, int searchVal)
-        // {
-        //     bool notFound = true;
-        //     int foundIndex = -1;
+        public static void SelectionSortID(Transactions[] myTransactions)
+        {
+            for (int i = 0; i < Transactions.GetTranCount() - 1; i++)
+            {
+                int min = i;
 
-        //     int first = 0;
-        //     int last = Transactions.GetTranCount() - 1;
+                for (int j = i + 1; j < Transactions.GetTranCount(); j++)
+                { 
+                    if(myTransactions[min].CompareToID(myTransactions[j]) > 0)
+                    {
+                        min = j;
+                    }
+                }
+                if(min != i)
+                {
+                    SwapID(myTransactions, min, i);
+                }
+            }
+        }
 
-        //     while(notFound && first <= last)
-        //     {
-        //         int middle = (first + last) / 2;
+        public static void SwapID(Transactions[] myTransactions, int x, int y )
+        {
+            Transactions temp = myTransactions[x];
+            myTransactions[x] = myTransactions[y];
+            myTransactions[y] = temp;
+        }
+
+        public static int BinarySearch(Transactions[] myTransactions, int searchVal)
+        {
+            bool notFound = true;
+            int foundIndex = -1;
+
+            int first = 0;
+            int last = Transactions.GetTranCount();
+
+            while(notFound && first <= last)
+            {
+                int middle = (first + last) / 2;
                 
-        //         if(searchVal == myTransactions[middle].GetTranISBN())
-        //         {
-        //             notFound = false;
-        //             foundIndex = middle;
-        //         }
-        //         else if(searchVal > myTransactions[middle].GetTranISBN())
-        //         {
-        //             first = middle + 1;
-        //         }
-        //         else 
-        //         {
-        //             last = middle -1;
-        //         }
-        //     }
-        //     return foundIndex;
-        // }
+                if(searchVal == myTransactions[middle].GetRentID())
+                {
+                    notFound = false;
+                    foundIndex = middle;
+                }
+                else if(searchVal > myTransactions[middle].GetRentID())
+                {
+                    first = middle + 1;
+                }
+                else 
+                {
+                    last = middle -1;
+                }
+            }
+            return foundIndex;
+        }
     }
 }

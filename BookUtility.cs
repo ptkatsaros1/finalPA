@@ -39,6 +39,33 @@ namespace PA5
             myBooks[y] = temp;
         }
 
+        public static void SelectionSortGenre(Book[] myBooks)
+        {
+            for (int i = 0; i < Book.GetCount() - 1; i++)
+            {
+                int min = i;
+
+                for (int j = i + 1; j < Book.GetCount(); j++)
+                { 
+                    if(myBooks[min].CompareToGenre(myBooks[j]) > 0)
+                    {
+                        min = j;
+                    }
+                }
+                if(min != i)
+                {
+                    SwapGenre(myBooks, min, i);
+                }
+            }
+        }
+
+        public static void SwapGenre(Book[] myBooks, int x, int y )
+        {
+            Book temp = myBooks[x];
+            myBooks[x] = myBooks[y];
+            myBooks[y] = temp;
+        }
+
 
         //binary search used for finding ISBN within book array, returns index of ISBN found
         public static int BinarySearch(Book[] myBooks, int searchVal)

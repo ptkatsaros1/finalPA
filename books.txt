@@ -1,10 +1,9 @@
-3#The Hobbit#JRR Tolkien#Fiction#485#Rented#0
-13#The Journey#HK Scott#Nonfiction#3#Rented#0
+3#MIS 221#JRR Tolkien#Fiction#485#Rented#0
+13#The Journey#HK Scott#Non Fiction#3#Rented#0
 19#MIS 221#Jeff#Mystery#8730#Rented#0
-29#The Art of War#Sun Tzu#History#90#Available#4
+29#The Art of War#Sun Tzu#History#90#Available#3
 33#Harry Potter#JK Rowling#Fantasy#90#Available#1
-66#Jozwiak#Polska Nasza#Historia#8#Available#1
+44#The Run#Joe Jenkins#Non Fiction#3#Available#1
+66#Jozwiak#Polska Nasza#History#8#Available#1
 68#Nineteen Eighty Four#George Orwell#Fiction#59#Rented#0
-77#Jodotnet runhn Doe#Theo Brown#Fiction#2#Available#1
-99#Help#Me#Pls#99#Rented#0
-104#World War Two#Adam Wells#history#803#Rented#0
+104#World War Two#Adam Wells#History#803#Available#1

@@ -111,6 +111,7 @@ namespace PA5
             Transactions[] myTransactions = new Transactions[200];
             
             //get ISBN from user to identify boook being rented
+            Console.Clear();
             Console.WriteLine("Enter the ISBN of the book to be marked as rented (-1 to stop):\n ");
             int tranISBN = int.Parse(Console.ReadLine());
 
@@ -131,10 +132,11 @@ namespace PA5
                         myBooks[indexFound].SetStatus(status);
                     }
                 //get rest of renter's info
-                Console.WriteLine("Enter the customer's name:\n");
+                Console.Clear();
+                Console.WriteLine("\nEnter the customer's name:\n");
                 string customerName = Console.ReadLine();
 
-                Console.WriteLine("Enter the customer's email:\n");
+                Console.WriteLine("\nEnter the customer's email:\n");
                 string customerEmail = Console.ReadLine();
 
                 //rent ID randomized
@@ -149,6 +151,7 @@ namespace PA5
                 myTransactions[Transactions.GetTranCount()] = newTransactions;
                 Transactions.IncrTranCount();
 
+                Console.Clear();
                 Console.WriteLine("Enter the ISBN of the book to be rented (-1 to stop):\n ");
                 tranISBN = int.Parse(Console.ReadLine());
                 }
@@ -158,13 +161,86 @@ namespace PA5
                     Console.WriteLine("\nERROR... There are no available copies of this book\n");
                     GetTransactionData(myBooks);
                 }
+                Console.WriteLine("Books rented. Press enter to continue");
+                Console.ReadLine();
 
             }
             return myTransactions;
 
          }
 
-         public static void BookReturn(Transactions[] myTransactions)
+         public static void Edit(Transactions[] myTransactions)
+        {
+            // edit function
+            Console.WriteLine("Enter the rental ID of the transaction you would like to edit: ");
+            int tempID = int.Parse(Console.ReadLine());
+            //searching ISBN to be able to edit a specific book 
+            int indexFound = TranUtility.BinarySearch(myTransactions, tempID);
+            Console.Clear();
+            Console.WriteLine("Please enter:\n'ID' to edit the Rental ID\n'ISBN' to edit the ISBN\n'Name' to edit the Customer Name\n'Email' to edit the Customer Email\n'Rent Date' to change the Rent Date\n'Return' to change the 'Return Date'");
+            string answer = Console.ReadLine().ToLower();
+            if(answer == "id")
+            {
+                Console.Clear();
+                Console.WriteLine("\nEnter a new ID:");
+                int newID = int.Parse(Console.ReadLine());
+                //finds the instance of the ID entered and makes an edit to ID at that instance
+                myTransactions[indexFound].SetRentID(newID);
+            }
+            else if(answer == "isbn")
+            {
+                Console.Clear();
+                Console.WriteLine("\nEnter a new ISBN:");
+                int newISBN = int.Parse(Console.ReadLine());
+                //finds the instance of the ID entered and makes an edit to ID at that instance
+                myTransactions[indexFound].SetTranISBN(newISBN);
+            }
+            else if(answer == "name")
+            {
+                Console.Clear();
+                Console.WriteLine("\nEnter a new customer name:");
+                string newName = Console.ReadLine();
+                //finds the instance of the ISBN entered and makes an edit to genre at that instance
+                myTransactions[indexFound].SetCustomerName(newName);
+            }
+            else if(answer == "email")
+            {
+                Console.Clear();
+                Console.WriteLine("\nEnter a new customer email:");
+                string newCE = Console.ReadLine();
+                //finds the instance of the ISBN entered and makes an edit to listening time at that instance
+                myTransactions[indexFound].SetCustomerEmail(newCE);
+            }
+            else if(answer == "rent date")
+            {
+                Console.Clear();
+                Console.WriteLine("\nEnter a new rental date (MM/DD/YYYY):");
+                string newRD = Console.ReadLine();
+                //finds the instance of the ISBN entered and makes an edit to listening time at that instance
+                myTransactions[indexFound].SetRentDate(newRD);
+            }
+            else if(answer == "return")
+            {
+                Console.Clear();
+                Console.WriteLine("\nEnter a new return date (MM/DD/YYYY):");
+                string newRetD = Console.ReadLine();
+                //finds the instance of the ISBN entered and makes an edit to listening time at that instance
+                myTransactions[indexFound].SetReturnDate(newRetD);
+            }
+
+            // clear and re-send sorted and edited array (update the text file)
+                string path2 = "transactions.txt";
+                File.WriteAllText(path2, String.Empty);
+                TextWriter tW2 = new StreamWriter(path2, true);
+                tW2.Close();
+                ToFile(myTransactions);
+
+            Console.WriteLine("\nTransaction edited. Press enter to continue.");
+            Console.ReadLine();
+        }
+
+
+         public static void BookReturn(Transactions[] myTransactions, Book[] myBooks)
          {
              //return book
             Console.WriteLine("\nEnter the ISBN of the book to be returned: ");
@@ -190,6 +266,18 @@ namespace PA5
                                 //find the isbn instance in the transaction file and replace the N/A with the current date (date of return)
                                 string newReturnDate = DateTime.Now.ToString("M/d/yyyy");
                                 myTransactions[i].SetReturnDate(newReturnDate);
+
+                                //take the ISBN of the book returned and search it in the book array, if found, increase the count of copies (since one was returned)
+                                int tempISBN = myTransactions[i].GetTranISBN();
+                                int indexFound = BookUtility.BinarySearch(myBooks, tempISBN);
+                                int copiesAdd = myBooks[indexFound].GetBookCount() + 1;
+                                myBooks[indexFound].SetBookCount(copiesAdd);
+
+                                if(myBooks[indexFound].GetBookCount() > 0)
+                                {
+                                    string status = "Available";
+                                    myBooks[indexFound].SetStatus(status);
+                                }
                             }
                         }
                     } 
@@ -201,6 +289,8 @@ namespace PA5
             TextWriter tW5 = new StreamWriter(path5, true);
             tW5.Close();
             ToFile(myTransactions);
+
+
          }
 
         //ToFile to write transaction array to text file with # delimeter
@@ -227,6 +317,10 @@ namespace PA5
         public int CompareToHist(Transactions count)
         {
             return this.customerName.CompareTo(count.GetCustomerName());
+        }
+        public int CompareToID(Transactions count)
+        {
+            return this.rentID.CompareTo(count.GetRentID());
         }
 
           public static void PrintRent(Transactions[] myTransactions)
