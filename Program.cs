@@ -43,10 +43,10 @@ namespace PA5
                     {
                         if(myBooks[i].GetStatus() == "Available")
                         {
-                            Console.WriteLine(myBooks[i].GetTitle());
+                            Console.WriteLine(myBooks[i]);
                         }
                     }
-                    Console.WriteLine("\nPress enter to continue: ");
+                    Console.WriteLine("\nPress enter to continue...");
                     Console.ReadLine();
                 }
                 if(selection == "rent")
@@ -95,7 +95,7 @@ namespace PA5
                     Book.ToFile(myBooks);
 
                     Console.WriteLine("\nBook returned.");
-                    Console.WriteLine("\nPress enter to continue: ");
+                    Console.WriteLine("\nPress enter to continue... ");
                     Console.ReadLine();
 
                 }
@@ -117,7 +117,7 @@ namespace PA5
                     //calls method report
                     BookReport.IndividualReport(myTransactions);
 
-                    Console.WriteLine("\nPress enter to continue: ");
+                    Console.WriteLine("\nPress enter to continue... ");
                     Console.ReadLine();
                 }
                 if(selection == "historical")
@@ -137,7 +137,7 @@ namespace PA5
                 {
                     Console.Clear();
                     Book.LineDelete(myBooks);
-                    Console.WriteLine("Book deleted (press enter to continue)");
+                    Console.WriteLine("\nPress enter to continue...");
                     Console.ReadLine();
                 }
                 if(selection == "genre")

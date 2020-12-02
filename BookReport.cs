@@ -51,7 +51,7 @@ namespace PA5
 
         public void TotalReport(Transactions[] myTransactions)
         {
-
+            Console.Clear();
             BookReport.SortDate(myTransactions);
             Console.WriteLine("\nTotal rentals by month and year: \n");
             Transactions.PrintRent(myTransactions);
@@ -59,58 +59,67 @@ namespace PA5
             Console.WriteLine("");
 
             string yearStr = myTransactions[0].GetRentDate().Substring(6,4);
-            int monthCount = 1;
-            int yearCount = 0; 
+            int monthCount = 0;
             string monthStr = myTransactions[0].GetRentDate().Substring(0,2);
 
-            for (int y = 1; y < Transactions.GetTranCount(); y++)
+            Console.WriteLine("\nWould you like to see a report for a specific month? ('yes' or 'no')");
+            string yes = Console.ReadLine();
+            if(yes == "yes")
             {
-                if(yearStr == myTransactions[y].GetRentDate().Substring(6,4))
+                Console.Clear();
+                Console.WriteLine("Enter a month and year to see the report from that month:\n");
+                Console.WriteLine("ATTENTION: enter month as 'MM' and year as 'YYYY'");
+                Console.WriteLine("\nEnter a month:\n");
+                int monthIntTemp = int.Parse(Console.ReadLine());
+                string monthTemp = monthIntTemp.ToString();
+                Console.WriteLine("\nEnter a year:\n");
+                string yearTemp = Console.ReadLine();
+
+                for (int i = 0; i < Transactions.GetTranCount(); i++)
                 {
-                    for (int i = 1; i < Transactions.GetTranCount(); i++) 
+                    if(yearTemp ==  myTransactions[i].GetRentDate().Substring(6,4) && monthTemp == myTransactions[i].GetRentDate().Substring(0,2))
                     {
-                        if(monthStr == myTransactions[i].GetRentDate().Substring(0,2))
+                        monthCount++;
+                    }
+                }
+
+                DateTime date = new DateTime(2020, monthIntTemp, 1);
+                string wordMonth = date.ToString("MMMM");
+
+                Console.Clear();
+                Console.WriteLine("\nNumber of rentals in " + wordMonth + ": " + monthCount);
+                Console.WriteLine("");
+                for (int i = 0; i < Transactions.GetTranCount(); i++)
+                {
+                    if(yearTemp ==  myTransactions[i].GetRentDate().Substring(6,4) && monthTemp == myTransactions[i].GetRentDate().Substring(0,2))
+                    {
+                        Console.WriteLine(myTransactions[i]);
+                    }
+                }
+                Console.WriteLine("\nPress enter to continue...");
+                Console.ReadLine();
+
+                Console.WriteLine("\nWould you like to write this to a text file? ('yes' or 'no')");
+                string choice = Console.ReadLine();
+                if(choice.ToLower() == "yes")
+                {
+                    Console.WriteLine("\nEnter the name of the text file: ");
+                    string tempTxt = Console.ReadLine();
+                    StreamWriter outFile = new StreamWriter(tempTxt);
+                    //Streamwrite the info written out above into a text file of the user's choice
+                    for (int i = 0; i < Transactions.GetTranCount(); i++)
+                    {
+                        if(yearTemp ==  myTransactions[i].GetRentDate().Substring(6,4) && monthTemp == myTransactions[i].GetRentDate().Substring(0,2))
                         {
-                            monthCount++;
-                        }
-                        else
-                        { 
-                            ProcessBreak(myTransactions, ref yearStr, ref monthStr, ref monthCount, ref yearCount, i, y);
+                            outFile.WriteLine(myTransactions[i]);
                         }
                     }
-                    ProcessBreak(myTransactions, ref yearStr, ref monthStr, ref monthCount, ref yearCount, 0, 0);
-                }
-                else
-                {
-                    YearBreak(myTransactions, ref yearStr, ref monthStr, ref monthCount, ref yearCount, y);
+                    outFile.Close();
+                    Console.WriteLine("\nSuccess! Text entered. (Press enter to continue)");
+                    Console.ReadLine();
                 }
             }
-            YearBreak(myTransactions, ref yearStr, ref monthStr, ref monthCount, ref yearCount, 0);              
-        }
 
-        public void ProcessBreak(Transactions[] myTransactions, ref string yearStr, ref string monthStr, ref int monthCount, ref int yearCount, int i, int y)
-        {
-            yearCount += monthCount;
-
-            for (int j = (yearCount - monthCount); j < yearCount; j++)
-            {
-                Console.WriteLine(myTransactions[j]);
-            }
-            Console.WriteLine("");
-            Console.WriteLine("Rentals this month: " + monthCount);
-            Console.WriteLine("Rentals this year: " + yearCount);
-            Console.ReadLine();
-
-            yearStr = myTransactions[y].GetRentDate().Substring(6,4);
-            monthStr = myTransactions[i].GetRentDate().Substring(0,2);
-            monthCount = 1;
-        }
-
-        public void YearBreak(Transactions[] myTransactions, ref string yearStr, ref string monthStr, ref int monthCount, ref int yearCount, int y)
-        {
-            yearCount = 0;
-            yearStr = myTransactions[y].GetRentDate().Substring(6,4);
-            monthCount = 1;
         }
 
         //individual report (gives all rentals by that customer)
@@ -137,7 +146,7 @@ namespace PA5
                 }
             }
 
-            Console.WriteLine("\nWould you like to enter this into a text file? (yes or no)");
+            Console.WriteLine("\nWould you like to enter this into a text file? ('yes' or 'no')");
             string choice = Console.ReadLine();
             if(choice.ToLower() == "yes")
             {
@@ -145,7 +154,7 @@ namespace PA5
                 string tempTxt = Console.ReadLine();
                 StreamWriter outFile = new StreamWriter(tempTxt);
                 //Streamwrite the info written out above into a text file of the user's choice
-                for(int i = 1; i < Transactions.GetTranCount(); i++)
+                for(int i = 0; i < Transactions.GetTranCount(); i++)
                 {
                     if(tempIndvEmail == myTransactions[i].GetCustomerEmail())
                     {
@@ -200,7 +209,7 @@ namespace PA5
         //simple write method to prompt a text file, and write text into it
         public void Write(Transactions[] myTransactions)
         {
-            Console.WriteLine("\nWould you like to enter this into a text file? (yes or no)");
+            Console.WriteLine("\nWould you like to enter this into a text file? ('yes' or 'no')");
             string choice = Console.ReadLine();
             if(choice.ToLower() == "yes")
             {
@@ -208,7 +217,7 @@ namespace PA5
                 string tempTxt = Console.ReadLine();
                 StreamWriter outFile = new StreamWriter(tempTxt);
                 //Streamwrite the info written out above into a text file of the user's choice
-                for(int i = 1; i < Transactions.GetTranCount(); i++)
+                for(int i = 0; i < Transactions.GetTranCount(); i++)
                 {
                     outFile.WriteLine(myTransactions[i].GetRentID() + "#" + myTransactions[i].GetTranISBN() + "#" + myTransactions[i].GetCustomerName() + "#" + myTransactions[i].GetCustomerEmail() + "#" + myTransactions[i].GetRentDate() + "#" + myTransactions[i].GetReturnDate());
                 }

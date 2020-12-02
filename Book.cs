@@ -125,7 +125,7 @@ namespace PA5
             BookFile data = new BookFile("books.txt");
             Book[] myBooks = data.ReadBookData();
             
-            Console.WriteLine("Enter book ISBN (-1 to stop): \n");
+            Console.WriteLine("\nEnter book ISBN (-1 to stop): \n");
             int ISBN = int.Parse(Console.ReadLine());
             
             while(ISBN != -1)
@@ -136,16 +136,16 @@ namespace PA5
                 {
                     int bookCount = 1;
 
-                    Console.Write("Enter the title: \n");
+                    Console.Write("\nEnter the title: \n");
                     string title = Console.ReadLine();
 
-                    Console.Write("Enter the author: \n");
+                    Console.Write("\nEnter the author: \n");
                     string author = Console.ReadLine();
 
-                    Console.Write("Enter the genre: \n");
+                    Console.Write("\nEnter the genre: \n");
                     string genre = Console.ReadLine();
 
-                    Console.Write("Enter the listening time: \n");
+                    Console.Write("\nEnter the listening time: \n");
                     double listeningTime = double.Parse(Console.ReadLine());
 
                     string status = "Available";
@@ -154,7 +154,8 @@ namespace PA5
                     myBooks[GetCount()] = newBook;
                     IncrCount();
 
-                    Console.Write("Enter book ISBN (- 1 to stop): \n");
+                    Console.Clear();
+                    Console.Write("\nEnter book ISBN (- 1 to stop): \n");
                     ISBN = int.Parse(Console.ReadLine());
                 }
                 //if the book ISBN already exists, program will increase the number of copies by one
@@ -164,10 +165,20 @@ namespace PA5
                     myBooks[indexFound].SetBookCount(copies);
                     //exits the GetBookData method
                     ISBN = -1;
+
+                    string status = "Available";
+                    myBooks[indexFound].SetStatus(status);
+
+                    Console.Clear();
+                    Console.WriteLine("This ISBN already exists... a copy has been added");
+                    Console.WriteLine("\nPress enter to continue...");
+                    Console.ReadLine();
                 }
-                Console.WriteLine("\nBook entered (press enter to continue)");
-                Console.ReadLine();
             }
+            Console.Clear();
+            Console.WriteLine("\nBook(s) inputed");
+            Console.WriteLine("\nPress enter to continue...");
+            Console.ReadLine();
 
 
             return myBooks;
@@ -282,6 +293,16 @@ namespace PA5
             for(int j = indexFound + 1; j < GetCount(); j++)
             {
                 outFile.WriteLine(myBooks[j].GetISBN() + "#" + myBooks[j].GetTitle() + "#" + myBooks[j].GetAuthor() + "#" + myBooks[j].GetGenre() + "#" + myBooks[j].GetListeningTime() + "#" + myBooks[j].GetStatus() + "#" + myBooks[j].GetBookCount());
+            }
+
+            Console.WriteLine("Updated book file:\n");
+            for (int i = 0; i < indexFound; i++)
+            {
+                Console.WriteLine(myBooks[i].GetISBN() + "#" + myBooks[i].GetTitle() + "#" + myBooks[i].GetAuthor() + "#" + myBooks[i].GetGenre() + "#" + myBooks[i].GetListeningTime() + "#" + myBooks[i].GetStatus() + "#" + myBooks[i].GetBookCount());
+            }
+            for (int j = indexFound + 1; j < GetCount(); j++)
+            {
+                 Console.WriteLine(myBooks[j].GetISBN() + "#" + myBooks[j].GetTitle() + "#" + myBooks[j].GetAuthor() + "#" + myBooks[j].GetGenre() + "#" + myBooks[j].GetListeningTime() + "#" + myBooks[j].GetStatus() + "#" + myBooks[j].GetBookCount());
             }
         }
 

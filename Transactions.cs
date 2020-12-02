@@ -110,8 +110,19 @@ namespace PA5
             //creates transaction array to input books to be marked as rented
             Transactions[] myTransactions = new Transactions[200];
             
+            //show available books
+            Console.WriteLine("\nBooks available for rent:\n\n");
+            for(int i = 0; i < Book.GetCount(); i++)
+            {
+                if(myBooks[i].GetStatus() == "Available")
+                {
+                    Console.WriteLine(myBooks[i]);
+                }
+            }
+            Console.WriteLine("\nPress enter to continue... ");
+            Console.ReadLine();
+
             //get ISBN from user to identify boook being rented
-            Console.Clear();
             Console.WriteLine("Enter the ISBN of the book to be marked as rented (-1 to stop):\n ");
             int tranISBN = int.Parse(Console.ReadLine());
 
@@ -144,7 +155,7 @@ namespace PA5
                 int rentID = rnd.Next();
 
                 //rent date set to current date, return date set to N/A (per Dr. Saifee's instruction)
-                string rentDate = DateTime.Now.ToString("M/d/yyyy");
+                string rentDate = DateTime.Now.ToString("MM/dd/yyyy");
                 string returnDate = "N/A";  
 
                 Transactions newTransactions = new Transactions(rentID, tranISBN, customerName, customerEmail, rentDate, returnDate);
@@ -161,7 +172,7 @@ namespace PA5
                     Console.WriteLine("\nERROR... There are no available copies of this book\n");
                     GetTransactionData(myBooks);
                 }
-                Console.WriteLine("Books rented. Press enter to continue");
+                Console.WriteLine("\nBooks rented. Press enter to continue");
                 Console.ReadLine();
 
             }
@@ -214,7 +225,7 @@ namespace PA5
             else if(answer == "rent date")
             {
                 Console.Clear();
-                Console.WriteLine("\nEnter a new rental date (MM/DD/YYYY):");
+                Console.WriteLine("\nEnter a new rental date (MM/dd/yyyy:");
                 string newRD = Console.ReadLine();
                 //finds the instance of the ISBN entered and makes an edit to listening time at that instance
                 myTransactions[indexFound].SetRentDate(newRD);
@@ -222,7 +233,7 @@ namespace PA5
             else if(answer == "return")
             {
                 Console.Clear();
-                Console.WriteLine("\nEnter a new return date (MM/DD/YYYY):");
+                Console.WriteLine("\nEnter a new return date (MM/dd/yyyy):");
                 string newRetD = Console.ReadLine();
                 //finds the instance of the ISBN entered and makes an edit to listening time at that instance
                 myTransactions[indexFound].SetReturnDate(newRetD);
@@ -264,7 +275,7 @@ namespace PA5
                             if(i == j)
                             {
                                 //find the isbn instance in the transaction file and replace the N/A with the current date (date of return)
-                                string newReturnDate = DateTime.Now.ToString("M/d/yyyy");
+                                string newReturnDate = DateTime.Now.ToString("MM/dd/yyyy");
                                 myTransactions[i].SetReturnDate(newReturnDate);
 
                                 //take the ISBN of the book returned and search it in the book array, if found, increase the count of copies (since one was returned)
